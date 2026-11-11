@@ -594,7 +594,7 @@
       <summary>WM class names to always give focus to in windowAttentionHandler.js</summary>
     </key>
     <key name="app-menu-icon-name" type="s">
-      <default>"cinnamon-symbolic"</default>
+      <default>"ocimum-symbolic"</default>
       <summary>The default icon name of the application menu</summary>
       <description>
        Controls the default icon name used by the application menu.

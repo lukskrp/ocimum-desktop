@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <!-- Ocimum Desktop logo: two basil leaves. -->
+  <defs>
+    <linearGradient id="leaf" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#2e7d32"/>
+      <stop offset="1" stop-color="#66bb6a"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#leaf)" d="M10 54C10 28 28 10 54 10C54 36 36 54 10 54Z"/>
+  <path fill="none" stroke="#c8e6c9" stroke-width="2.5" stroke-linecap="round" d="M14 50L48 16"/>
+  <path fill="none" stroke="#c8e6c9" stroke-width="1.8" stroke-linecap="round"
+        d="M24 40L22 28M32 32L30 21M40 24L38 15M24 40L36 42M32 32L43 34M40 24L49 26"/>
+  <path fill="#81c784" d="M8 56C6 46 9 39 16 35C17 43 14 50 8 56Z"/>
+</svg>
