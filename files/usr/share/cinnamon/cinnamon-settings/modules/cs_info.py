@@ -116,7 +116,7 @@ def createSystemInfos():
                     infos.append((_("Operating System"), title))
                     break # No need to continue reading the file once we have found PRETTY_NAME
     if 'CINNAMON_VERSION' in os.environ:
-        infos.append((_("Cinnamon Version"), os.environ['CINNAMON_VERSION']))
+        infos.append((_("Desktop"), "Ocimum Desktop %s (based on Cinnamon)" % os.environ['CINNAMON_VERSION']))
     infos.append((_("Kernel"), platform.release()))
     infos.append((_("Processor"), processorName))
     if memunit == "kB":
