@@ -1,4 +1,4 @@
-# The wallpaper painter - GTK4
+# The wallpaper painter - OTK (X11 root pixmap)
 
 background_daemon_sources = [
     'bg-accounts.c',
@@ -11,7 +11,7 @@ background_daemon_sources = [
 
 background_daemon_deps = [
     config_h,
-    gtk4,
+    otk,
     cairo_xlib,
     X11,
     libcinnamon_bg_dep,

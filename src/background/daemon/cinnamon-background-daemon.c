@@ -1036,9 +1036,6 @@ main (int argc, char **argv)
 
     g_message ("Starting up");
 
-    /* Smaller resident footprint than Vulkan. */
-    g_setenv ("GSK_RENDERER", "gl", FALSE);
-
     /* On Wayland GTK4 probes org.freedesktop.portal.Settings during init, which
      * can be delayed up to 25s if the portals fail to initialize (which can definitely
      * happen). Nothing we're doing here relies on anything the portal can give us.
@@ -1046,7 +1043,7 @@ main (int argc, char **argv)
      * gsettings (org.cinnamon.desktop.background picture-uri). */
     gtk_disable_portals ();
 
-    if (!gtk_init_check ()) {
+    if (!gtk_init_check (NULL, NULL)) {
         g_critical ("cinnamon-background-daemon: could not initialize GTK");
         return 1;
     }

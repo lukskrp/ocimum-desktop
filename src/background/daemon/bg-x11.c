@@ -3,7 +3,7 @@
 #include "bg-x11.h"
 #include "bg-geometry.h"
 
-#include <gdk/x11/gdkx.h>
+#include <gdk/gdkx.h>
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
 #include <cairo-xlib.h>
@@ -45,7 +45,7 @@ bg_x11_set_background (GdkDisplay *display, CinnamonBackgroundDaemon *daemon)
 {
     Display *xdisplay = GDK_DISPLAY_XDISPLAY (display);
     int      screen   = DefaultScreen (xdisplay);
-    Window   root     = gdk_x11_display_get_xrootwindow (display);
+    Window   root     = RootWindow (xdisplay, screen);
 
     GListModel *monitors = gdk_display_get_monitors (display);
     guint n = g_list_model_get_n_items (monitors);
@@ -53,9 +53,9 @@ bg_x11_set_background (GdkDisplay *display, CinnamonBackgroundDaemon *daemon)
     if (n == 0)
         return;
 
-    /* X11 has a single screen-wide scale rather than a per-monitor one. GTK4's
-       X11 backend divides RandR geometry by it, so monitor rects are logical,
-       not device, pixels. */
+    /* X11 has a single screen-wide scale rather than a per-monitor one. OTK's
+       X11 backend (like GTK 4's) divides RandR geometry by it, so monitor rects
+       are logical, not device, pixels. */
     int scale = 1;
     {
         g_autoptr(GdkMonitor) first = g_list_model_get_item (monitors, 0);
@@ -67,8 +67,8 @@ bg_x11_set_background (GdkDisplay *display, CinnamonBackgroundDaemon *daemon)
     /* Size the pixmap from the X screen rather than by unioning GDK's monitor
        rects, the way gnome-bg did for years with gdk_screen_get_width(). The
        screen is the authority for the drawable every root-window consumer
-       reads, and it is always valid -- GDK's monitor list is not, because GTK4
-       appends a monitor before setting that monitor's geometry, so a union
+       reads, and it is always valid -- GDK's monitor list is not always, because
+       GTK4 appended a monitor before setting that monitor's geometry, so a union
        taken mid-rebuild can come out zero-sized. A zero pixmap is a protocol
        error whose invalid id only surfaces later as a BadPixmap on the root. */
     int dev_w = DisplayWidth (xdisplay, screen);

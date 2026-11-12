@@ -18,13 +18,22 @@ was forked from (muffin 6.8.1, nemo 6.8.3, xapp 3.4.0, …).
 ## Toolkit
 
 Ocimum's GUI toolkit is GTK 3 through TulsiOS's forks, GTK3-O and
-[OTK](https://github.com/lukskrp/OTK). One exception for now: the background daemon
-inherited from Cinnamon 6.8 (per-monitor wallpapers) uses GTK 4. It will be ported to OTK
-once OTK has the GTK 4 features it needs.
+[OTK](https://github.com/lukskrp/OTK). No GTK 4: the background daemon inherited from
+Cinnamon 6.8 (per-monitor wallpapers) is built with OTK, using the GTK 4 API that OTK 1
+adds (`gdk_display_get_monitors()`, `gdk_monitor_get_connector()`,
+`gtk_disable_portals()`).
+
+## Display server
+
+Ocimum Desktop runs on X11, with XLibre as TulsiOS's X server. Wayland is not supported:
+`-Dwayland=false` is the default and `-Dwayland=true` stops the build. Cinnamon's Wayland
+session files and the daemon's layer-shell painter (`bg-wayland.c`) stay in the tree,
+unbuilt, so changes taken from Cinnamon still apply cleanly.
 
 ## Ocimum changes so far
 
 - Session names: "Ocimum Desktop" (session ids unchanged)
+- X11 only (XLibre); the background daemon is built with OTK instead of GTK 4
 - System Info shows "Ocimum Desktop <version> (based on Cinnamon)"
 - Basil-leaf logo (`ocimum-symbolic`, `ocimum`), used for the menu button
 - Software Center and Assistant pinned to the panel by default; the terminal launcher is

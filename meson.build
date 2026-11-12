@@ -90,17 +90,24 @@ else
 endif
 message('Building recorder: @0@'.format(get_option('build_recorder')))
 
-# Background daemon
-gtk4 = dependency('gtk4', version: '>= 4.18')   # gtk_disable_portals()
-# Layer shell is how the daemon paints on Wayland and is no use without it, so
-# it follows the option rather than being required by an X11-only build.
-gtk4_layer_shell = dependency('gtk4-layer-shell-0', version: '>= 1.0.0',
-                              required: get_option('wayland'))
+# Ocimum Desktop runs on X11 (XLibre) only. The Wayland session and the
+# background daemon's layer-shell painter stay in the tree, unbuilt.
+if get_option('wayland')
+    error('Ocimum Desktop is X11-only: build with -Dwayland=false')
+endif
+
+# Background daemon: OTK, TulsiOS's GTK 3 fork, with its OTK 1 API
+# (gdk_display_get_monitors(), gdk_monitor_get_connector(), gtk_disable_portals()).
+otk = dependency('otk-3.0')
 cairo_xlib = dependency('cairo-xlib')
 
 # on some systems we need to find the math lib to make sure it builds
 cc = meson.get_compiler('c')
 math = cc.find_library('m', required: false)
+
+if not cc.has_header_symbol('gtk/gtk.h', 'OTK_API_VERSION', dependencies: otk)
+    error('OTK with the OTK 1 API is required (OTK_API_VERSION missing)')
+endif
 
 xdo = dependency('libxdo', required: false)
 if not xdo.found()
