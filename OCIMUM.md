@@ -1,21 +1,28 @@
 # Ocimum Desktop
 
-Ocimum Desktop is the desktop of [TulsiOS](https://github.com/lukskrp/tulsipkgs): a fork of
-[Cinnamon](https://github.com/linuxmint/cinnamon), named after *Ocimum*, the basil genus.
+Ocimum Desktop is the desktop of [TulsiOS](https://github.com/lukskrp/tulsipkgs): a hard fork
+of [Cinnamon](https://github.com/linuxmint/cinnamon), named after *Ocimum*, the basil genus.
+Cinnamon is the base; Ocimum takes its own direction from here and does not track
+upstream releases.
 
 ## Branches
 
 | Branch | Contents |
 |---|---|
-| `master` | Mirror of upstream `linuxmint/cinnamon` `master` (development, currently 6.8) |
-| `ocimum` | **The Ocimum Desktop release branch**: the Cinnamon release that TulsiOS's other Cinnamon components (muffin, cinnamon-desktop, cjs, …) match, plus the Ocimum commits on top |
+| `master` | Mirror of upstream `linuxmint/cinnamon` `master`, for reference |
+| `ocimum` | **Ocimum Desktop.** Forked from Cinnamon 6.8.0 |
 
-`ocimum` is based on Cinnamon **6.8.0**, and tulsipkgs builds the rest of the Cinnamon
-suite at the matching 6.8 releases (muffin 6.8.1, nemo 6.8.3, xapp 3.4.0, …).
+tulsipkgs builds `cinnamon` from `ocimum` and the rest of the suite at the 6.8 releases it
+was forked from (muffin 6.8.1, nemo 6.8.3, xapp 3.4.0, …).
 
-## Ocimum changes
+## Toolkit
 
-Kept small and isolated so rebasing onto new Cinnamon releases stays easy:
+Ocimum's GUI toolkit is GTK 3 through TulsiOS's forks, GTK3-O and
+[OTK](https://github.com/lukskrp/OTK). One exception for now: the background daemon
+inherited from Cinnamon 6.8 (per-monitor wallpapers) uses GTK 4. It will be ported to OTK
+once OTK has the GTK 4 features it needs.
+
+## Ocimum changes so far
 
 - Session names: "Ocimum Desktop" (session ids unchanged)
 - System Info shows "Ocimum Desktop <version> (based on Cinnamon)"
@@ -26,15 +33,17 @@ Kept small and isolated so rebasing onto new Cinnamon releases stays easy:
 Theme, wallpaper and keyboard shortcuts are TulsiOS defaults, set by its NixOS modules,
 not here.
 
-## Rebasing onto a new Cinnamon release
+## Taking changes from Cinnamon
+
+Upstream changes are picked deliberately, not merged wholesale:
 
 ```sh
-git fetch https://github.com/linuxmint/cinnamon.git tag <version>
-git rebase --onto FETCH_HEAD <old-base> ocimum
-git push --force-with-lease origin ocimum
+git fetch https://github.com/linuxmint/cinnamon.git master
+git cherry-pick <commit>…
 ```
 
-Then update the pinned revision in tulsipkgs (`pkgs/by-name/ci/cinnamon/package.nix`).
+After pushing to `ocimum`, update the pinned revision and hash in tulsipkgs
+(`pkgs/by-name/ci/cinnamon/package.nix`).
 
 ## License
 
